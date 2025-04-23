@@ -1,0 +1,211 @@
+/* NomadAI Custom CSS */
+
+/* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #3A3A3A;
+}
+
+/* Header Styling */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #1E3A8A;
+}
+
+/* Make the main title larger */
+.stTitle h1 {
+    font-size: 2.5rem !important;
+    margin-bottom: 1rem !important;
+    color: #0A2472 !important;
+}
+
+/* Improve subheaders */
+h2 {
+    margin-top: 1.5rem !important;
+    margin-bottom: 1rem !important;
+    color: #1E40AF !important;
+}
+
+h3 {
+    margin-top: 1.2rem !important;
+    color: #1E3A8A !important;
+}
+
+/* Customize sidebar */
+.sidebar .sidebar-content {
+    background-color: #F8FAFC;
+}
+
+/* Improve buttons */
+.stButton > button {
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    padding: 0.25rem 1rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.stButton > button:hover {
+    opacity: 0.9 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Primary button */
+.stButton > button[data-baseweb="button"][kind="primary"] {
+    background-color: #1E40AF !important;
+}
+
+/* Secondary button */
+.stButton > button[data-baseweb="button"]:not([kind="primary"]) {
+    border: 1px solid #CBD5E1 !important;
+}
+
+/* Cards and containers */
+.card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
+}
+
+/* Form inputs */
+.stTextInput > div > div > input {
+    border-radius: 6px !important;
+}
+
+.stSelectbox > div > div > div {
+    border-radius: 6px !important;
+}
+
+.stMultiSelect > div > div > div {
+    border-radius: 6px !important;
+}
+
+/* Info boxes */
+.stAlert {
+    border-radius: 8px !important;
+}
+
+/* Success messages */
+.element-container div[data-testid="stNotificationContent"] {
+    border-radius: 8px !important;
+}
+
+/* Expanders */
+.streamlit-expanderHeader {
+    font-weight: 600 !important;
+    color: #1E3A8A !important;
+}
+
+/* Metrics */
+.stMetric {
+    background-color: #F8FAFC;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.stMetric label {
+    color: #64748B !important;
+    font-size: 0.9rem !important;
+}
+
+.stMetric [data-testid="stMetricValue"] {
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: #1E3A8A !important;
+}
+
+/* Tabs */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 2px;
+}
+
+.stTabs [data-baseweb="tab"] {
+    border-radius: 4px 4px 0 0;
+    padding: 0.5rem 1rem;
+}
+
+.stTabs [aria-selected="true"] {
+    background-color: #EFF6FF !important;
+    font-weight: 600;
+}
+
+/* Separators */
+hr {
+    margin: 2rem 0 !important;
+}
+
+/* Footer text */
+footer {
+    font-size: 0.8rem;
+    color: #64748B;
+}
+
+/* Tables */
+[data-testid="stTable"] table, .dataframe {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-testid="stTable"] thead tr:first-child th, .dataframe thead tr:first-child th {
+    background-color: #F1F5F9 !important;
+    color: #1E3A8A !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    padding: 0.75rem 1rem !important;
+}
+
+[data-testid="stTable"] tbody tr td, .dataframe tbody tr td {
+    padding: 0.75rem 1rem !important;
+    border-top: 1px solid #F1F5F9 !important;
+}
+
+/* Make page more responsive on mobile */
+@media (max-width: 768px) {
+    .stTitle h1 {
+        font-size: 1.75rem !important;
+    }
+    
+    h2 {
+        font-size: 1.5rem !important;
+    }
+    
+    h3 {
+        font-size: 1.25rem !important;
+    }
+}
+
+/* Custom classes for itinerary */
+.itinerary-day {
+    background-color: #F8FAFC;
+    border-left: 4px solid #3B82F6;
+    border-radius: 0 8px 8px 0;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.itinerary-activity {
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed #E2E8F0;
+}
+
+.itinerary-time {
+    font-weight: 600;
+    color: #0F172A;
+}
+
+.itinerary-location {
+    color: #1E40AF;
+}
+
+.itinerary-cost {
+    font-size: 0.9rem;
+    color: #64748B;
+    font-style: italic;
+}

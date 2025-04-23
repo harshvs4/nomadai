@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  # Backend API
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend
+    container_name: nomadai-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/nomadai
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-for-development}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}
+      - AMADEUS_API_KEY=${AMADEUS_API_KEY}
+      - AMADEUS_API_SECRET=${AMADEUS_API_SECRET}
+      - AMADEUS_TEST_MODE=True
+      - GOOGLE_PLACES_KEY=${GOOGLE_PLACES_KEY}
+    depends_on:
+      - db
+    volumes:
+      - ../backend:/app
+    networks:
+      - nomadai-network
+    restart: unless-stopped
+
+  # Frontend Streamlit App
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend
+    container_name: nomadai-frontend
+    ports:
+      - "8501:8501"
+    environment:
+      - NOMADAI_API_URL=http://backend:8000/api/v1
+    depends_on:
+      - backend
+    volumes:
+      - ../frontend:/app
+    networks:
+      - nomadai-network
+    restart: unless-stopped
+
+  # Database
+  db:
+    image: postgres:14-alpine
+    container_name: nomadai-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=nomadai
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nomadai-network
+    restart: unless-stopped
+
+  # Redis Cache (optional)
+  redis:
+    image: redis:alpine
+    container_name: nomadai-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - nomadai-network
+    restart: unless-stopped
+
+networks:
+  nomadai-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

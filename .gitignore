@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+/venv/
+/.env/
+/env/
+pip-log.txt
+
+# Build outputs
+/dist/
+/build/
+*.pyc
+__pycache__/
+.pytest_cache/
+coverage/
+*.egg-info/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Python
+*.py[cod]
+*$py.class 
