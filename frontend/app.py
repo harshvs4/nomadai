@@ -53,7 +53,7 @@ def show_header():
             st.write(f"Welcome, {user_info.get('username', 'User')}!")
             if st.button("Logout"):
                 logout_user()
-                st.experimental_rerun()
+                st.rerun()
         else:
             st.button("Login", on_click=lambda: set_page('login'))
 
@@ -64,24 +64,24 @@ def show_sidebar():
         
         if st.button("🏠 Home", key="nav_home", use_container_width=True):
             st.session_state.page = 'home'
-            st.experimental_rerun()
+            st.rerun()
         
         if st.button("🗺️ Plan a Trip", key="nav_planner", use_container_width=True):
             st.session_state.page = 'planner'
-            st.experimental_rerun()
+            st.rerun()
         
         if get_auth_token():
             if st.button("📋 My Itineraries", key="nav_itineraries", use_container_width=True):
-                st.session_state.page = 'itineraries'
-                st.experimental_rerun()
+                st.session_state.page = 'itinerary'
+                st.rerun()
             
             if st.button("👤 My Profile", key="nav_profile", use_container_width=True):
                 st.session_state.page = 'profile'
-                st.experimental_rerun()
+                st.rerun()
         
         if st.button("ℹ️ About", key="nav_about", use_container_width=True):
             st.session_state.page = 'about'
-            st.experimental_rerun()
+            st.rerun()
         
         st.divider()
         
@@ -126,7 +126,7 @@ def show_login_page():
                         st.session_state.auth_token = token_data["access_token"]
                         st.success("Login successful!")
                         st.session_state.page = 'home'
-                        st.experimental_rerun()
+                        st.rerun()
                     else:
                         st.error("Invalid username or password")
                 except Exception as e:
@@ -171,7 +171,7 @@ def main():
         show_home_page()
     elif st.session_state.page == 'planner':
         show_planner_page()
-    elif st.session_state.page == 'itineraries':
+    elif st.session_state.page == 'itinerary':
         show_itinerary_page()
     elif st.session_state.page == 'profile':
         show_profile_page()

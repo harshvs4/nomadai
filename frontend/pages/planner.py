@@ -32,19 +32,20 @@ def show_planner_page():
             # Date inputs
             today = date.today()
             default_start = today + timedelta(days=30)  # Default to 1 month from now
-            default_end = default_start + timedelta(days=7)  # Default to 1 week trip
+            session_start = st.session_state.get('start_date', default_start)  # Default to 1 week trip
             
             start_date = st.date_input(
-                "Start Date", 
-                value=st.session_state.get('start_date', default_start),
-                min_value=today
-            )
-            
+            "Start Date",
+            value=session_start,
+            min_value=today
+)
+            default_end = start_date + timedelta(days=7)
+            session_end = st.session_state.get('end_date', default_end)
             end_date = st.date_input(
-                "End Date", 
-                value=st.session_state.get('end_date', default_end),
-                min_value=start_date
-            )
+                "End Date",
+             value=session_end if session_end >= start_date + timedelta(days=1) else default_end,
+            min_value=start_date + timedelta(days=1)
+)
             
             # Calculate duration
             duration = (end_date - start_date).days
@@ -157,13 +158,13 @@ def show_planner_page():
                 if response.status_code == 200:
                     # Store the itinerary in session state
                     st.session_state.itinerary = response.json()
-                    
+                    #st.session_state.chat_history = []
                     # Show success message
                     st.success("Itinerary created successfully!")
                     
                     # Navigate to itinerary view
                     set_page('itineraries')
-                    st.experimental_rerun()
+                    st.rerun()
                 else:
                     error_detail = "Unknown error"
                     try:
@@ -194,7 +195,7 @@ def show_planner_page():
             st.caption(dest["desc"])
             if st.button(f"Plan trip to {dest['name']}", key=f"trend_{dest['name']}"):
                 st.session_state.selected_destination = dest["name"]
-                st.experimental_rerun()
+                st.rerun()
     
     # Travel tips
     st.subheader("Travel Planning Tips")

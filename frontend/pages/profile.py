@@ -16,7 +16,7 @@ def show_profile_page():
         st.warning("Please log in to view your profile.")
         if st.button("Go to Login"):
             set_page('login')
-            st.experimental_rerun()
+            st.rerun()
         return
     
     # Fetch user profile from the API
@@ -36,7 +36,7 @@ def show_profile_page():
                 if st.button("Login Again"):
                     logout_user()
                     set_page('login')
-                    st.experimental_rerun()
+                    st.rerun()
     except Exception as e:
         st.error(f"Error connecting to the server: {str(e)}")
         # For demo, show a sample profile
@@ -200,7 +200,7 @@ def display_user_profile(profile):
                         delete_account()
                 with col2:
                     if st.button("Cancel"):
-                        st.experimental_rerun()
+                        st.rerun()
 
 def save_travel_preferences(preferences):
     """Save user travel preferences via API."""
@@ -213,7 +213,7 @@ def save_travel_preferences(preferences):
         
         if response.status_code == 200:
             st.success("Travel preferences updated successfully!")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error(f"Failed to update preferences: {response.json().get('detail', 'Unknown error')}")
     except Exception as e:
@@ -238,7 +238,7 @@ def save_favorite_destination(new_destination, current_favorites):
         
         if response.status_code == 200:
             st.success(f"Added {new_destination} to your favorites!")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error(f"Failed to update favorites: {response.json().get('detail', 'Unknown error')}")
     except Exception as e:
@@ -262,7 +262,7 @@ def update_profile(full_name, email, location, bio):
         
         if response.status_code == 200:
             st.success("Profile updated successfully!")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error(f"Failed to update profile: {response.json().get('detail', 'Unknown error')}")
     except Exception as e:
@@ -300,7 +300,7 @@ def delete_account():
             st.success("Account deleted successfully.")
             logout_user()
             set_page('home')
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error(f"Failed to delete account: {response.json().get('detail', 'Unknown error')}")
     except Exception as e:
@@ -309,4 +309,4 @@ def delete_account():
         st.success("Account deleted successfully! (Demo mode)")
         logout_user()
         set_page('home')
-        st.experimental_rerun()
+        st.rerun()

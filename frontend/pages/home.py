@@ -30,7 +30,7 @@ def show_home_page():
         # Quick start planning button
         if st.button("Start Planning Your Trip", type="primary", use_container_width=True):
             set_page('planner')
-            st.experimental_rerun()
+            st.rerun()
     
     with col2:
         # Display a sample itinerary preview or illustration

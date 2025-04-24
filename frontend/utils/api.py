@@ -291,3 +291,19 @@ def delete_itinerary(itinerary_id: str) -> bool:
     except Exception as e:
         st.error(f"Error deleting itinerary: {str(e)}")
         return False
+
+def summarize_itinerary(itinerary: dict) -> str:
+    req = itinerary.get("travel_request", {})
+    summary = f"""The user has planned a trip with the following details:
+- Origin: {req.get("origin", "Unknown")}
+- Destination: {req.get("destination", "Unknown")}
+- Dates: {req.get("depart_date")} to {req.get("return_date")}
+- Budget: SGD {req.get("budget")}
+- Preferences: {', '.join(req.get('preferences', []))}
+
+Daily plan:
+"""
+    for day in itinerary.get("daily_plan", []):
+        summary += f"Day {day.get('day')}: {day.get('morning')} / {day.get('afternoon')} / {day.get('evening')}\n"
+
+    return summary

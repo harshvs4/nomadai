@@ -5,9 +5,13 @@ from datetime import datetime, date
 import re
 import pandas as pd
 
-from utils.api import get_api_url
+from utils.api import get_api_url, summarize_itinerary
 from utils.session import get_auth_token, set_page
-
+import os
+import sys
+from dotenv import load_dotenv
+import openai
+load_dotenv()
 def show_itinerary_page():
     """Display the itinerary page with saved and current itineraries."""
     
@@ -33,7 +37,7 @@ def show_itinerary_page():
         st.info("No current itinerary. Create a new trip plan!")
         if st.button("Create New Itinerary", type="primary"):
             set_page('planner')
-            st.experimental_rerun()
+            st.rerun()
 
 def display_current_itinerary():
     """Display the current itinerary from session state."""
@@ -79,7 +83,7 @@ def display_current_itinerary():
     with col2:
         if st.button("Modify Itinerary"):
             set_page('planner')
-            st.experimental_rerun()
+            st.rerun()
     
     with col3:
         if st.button("Export as PDF", disabled=True):
@@ -199,6 +203,40 @@ def display_current_itinerary():
     if itinerary.get('summary'):
         st.subheader("📝 Trip Summary")
         st.markdown(itinerary.get('summary'))
+    client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    st.subheader("💬 Chat with NomadAI")
+    
+    if 'chat_history' not in st.session_state:
+        st.session_state.chat_history = [
+        {
+            "role": "system",
+            "content": f"You are NomadAI, a smart travel assistant. Help the user modify this new itinerary:\n\n{summarize_itinerary(st.session_state.itinerary)}"
+        }
+    ]
+
+    if user_input := st.chat_input("Ask NomadAI to modify your itinerary..."):
+        st.session_state.chat_history.append({"role": "user", "content": user_input})
+
+    # Compose full context
+        messages = [
+        {
+            "role": "system",
+            "content": f"You are NomadAI, a helpful travel planning assistant. Help the user modify this itinerary based on their requests:\n\n{json.dumps(st.session_state.itinerary, indent=2)}"
+        }
+    ] + st.session_state.chat_history
+
+        client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=messages
+    )
+
+        ai_reply = response.choices[0].message.content
+        st.session_state.chat_history.append({"role": "assistant", "content": ai_reply})
+
+        with st.chat_message("assistant"):
+            st.markdown(ai_reply)
+
 
 def display_saved_itineraries():
     """Display saved itineraries from the API or a placeholder if not available."""
@@ -208,7 +246,7 @@ def display_saved_itineraries():
         st.info("Please log in to view your saved itineraries.")
         if st.button("Login"):
             set_page('login')
-            st.experimental_rerun()
+            st.rerun()
         return
     
     # Try to fetch saved itineraries from the API
@@ -263,7 +301,7 @@ def display_saved_itineraries():
 
 def display_saved_itinerary_summary(itinerary):
     """Display a summary of a saved itinerary."""
-    
+   
     # Extract and format dates
     start_date = parse_date(itinerary.get('start_date', None))
     end_date = parse_date(itinerary.get('end_date', None))
